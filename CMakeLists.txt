@@ -12,7 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  Eigen3
 )
+include_directories(${EIGEN3_INCLUDE_DIR})
+add_definitions(${EIGEN_DEFINITIONS})
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -138,7 +141,9 @@ include_directories(
 #############complie cpp file to executable file############
 ############################################################
 add_executable(takeoff_node src/takeoff.cpp)
-
+add_executable(figure8 src/figure8_circle.cpp)
+add_executable(leader_node src/leader.cpp)
+add_executable(follower_node src/follower.cpp)
 ############################################################
 #############complie cpp file to executable file############
 ############################################################
@@ -157,6 +162,15 @@ add_executable(takeoff_node src/takeoff.cpp)
 target_link_libraries(takeoff_node
    ${catkin_LIBRARIES}
  )
+ target_link_libraries(figure8
+   ${catkin_LIBRARIES}
+ )
+  target_link_libraries(leader_node
+   ${catkin_LIBRARIES}
+ )
+ target_link_libraries(follower_node
+ ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
