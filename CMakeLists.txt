@@ -12,10 +12,14 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  Eigen3
+# Eigen3
 )
+#include_directories(${EIGEN3_INCLUDE_DIR})
+#add_definitions(${EIGEN_DEFINITIONS})
+find_package(PkgConfig)
+pkg_check_modules(EIGEN3 REQUIRED eigen3)
 include_directories(${EIGEN3_INCLUDE_DIR})
-add_definitions(${EIGEN_DEFINITIONS})
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
