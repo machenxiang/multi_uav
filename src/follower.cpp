@@ -16,6 +16,7 @@
 #include <mavros_msgs/State.h>
 #include <mavros_msgs/PositionTarget.h>
 #include <eigen_conversions/eigen_msg.h>
+#include "include/PidController.hpp"
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>宏 定 义<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 #define PI 3.141592653589793238327950
@@ -37,6 +38,13 @@ int main(int argc,char **argv){
     target_pos.pose.position.y=6;
     target_pos.pose.position.z=2.5;
 
+    //pid 
+    PidController pidX,pidY ;
+    pidX.setPoint(leader_pos[0], 0.0015, 0, 0.0005);
+    pidY.setPoint(leader_pos[1], 0.0015, 0, 0.0005);
+    float vx = (pidX.control(follower_pos[0]));
+    float vy = (pidX.control(follower_pos[0]));
+    
     ros::init(argc, argv, "offb_node");
 	ros::NodeHandle nh;
     //建议控制频率10~20Hz,控制频率取决于控制形式，若控制方式为速度或者加速度应适当提高频率
