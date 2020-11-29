@@ -1,7 +1,7 @@
 /***************************************************************************************************************************
  * Function: leader_uav run a square
  *
- * Node name: leader_node
+ * Node name: run_square_node
  * 
  * Author: Ma Chenxiang
  *
@@ -36,16 +36,19 @@ int main(int argc,char **argv){
 	ros::NodeHandle nh;
     //建议控制频率10~20Hz,控制频率取决于控制形式，若控制方式为速度或者加速度应适当提高频率
     ros::Rate rate(30);
-
+    //【leader机位置订阅】
     ros::Subscriber leader_state_sub=nh.subscribe<geometry_msgs::PoseStamped>("/iris_0/mavros/vision_pose/pose",100,leader_pos_cb);
-
+    //【leader机速度发布】
     ros::Publisher  leader_vel_pub=nh.advertise<mavros_msgs::PositionTarget>("/iris_0/mavros/setpoint_raw/local", 100);
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>主 循 环<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-int i=0;
+    for(int i=0;i<TARGET_NUM;i++){
 HOME:
-        ROS_INFO("go to target[%d]",i);
-        std::cout<<"the x axis difference between loacal pose and path"<<i<<" "<<abs(target_pos[i].pose.position.x-leader_current_pos[0])<<std::endl;
-        std::cout<<"the y axis difference between loacal pose and path"<<i<<" "<<abs(target_pos[i].pose.position.y-leader_current_pos[1])<<std::endl;
+        if(i==5){
+            ROS_INFO("THe mission has been finished");
+            break;
+        }
+        ROS_INFO("go to target[%d] (%d,%d)",i,target_pos[i].pose.position.x,target_pos[i].pose.position.y);
         while(ros::ok()){
             ros::spinOnce();
             if(abs(target_pos[i].pose.position.x-leader_current_pos[0])<1 && abs(target_pos[i].pose.position.y-leader_current_pos[1])<1){
@@ -57,22 +60,22 @@ HOME:
 
             leader_vel.coordinate_frame=1;
 		    leader_vel.type_mask = 1 + 2 + 4 + /*8 + 16+ 32 */ + 64 + 128 + 256 + 512 + /*1024*/ + 2048;
-		    leader_vel.velocity.x=cos(compute_angel(target_pos[i],leader_current_pos));
-		    leader_vel.velocity.y=sin(compute_angel(target_pos[i],leader_current_pos));
+		    leader_vel.velocity.x=0.5*cos(compute_angel(target_pos[i],leader_current_pos));
+		    leader_vel.velocity.y=0.5*sin(compute_angel(target_pos[i],leader_current_pos));
             leader_vel.yaw=atan2(leader_vel.velocity.y,leader_vel.velocity.x);
             leader_vel_pub.publish(leader_vel);
 
         }
-    
+    }
 
     ROS_INFO("change mode to hover");
     while (ros::ok())
     {
+        ros::spinOnce();
         leader_vel.coordinate_frame=1;
-		leader_vel.type_mask = 1 + 2 + 4/* + 8 + 16*/ + 32 + 64 + 128 + 256 + 512 + 1024 + 2048;
+		leader_vel.type_mask = 1 + 2 + 4/* + 8 + 16 + 32 */+ 64 + 128 + 256 + 512 + 1024 + 2048;
 		leader_vel.velocity.x=0;
 		leader_vel.velocity.y=0;
-        leader_vel.yaw=0;
         leader_vel_pub.publish(leader_vel);
     }
     
@@ -129,3 +132,5 @@ float compute_angel(const geometry_msgs::PoseStamped& target,const Eigen::Vector
     float angel=atan2((target.pose.position.y-local[1]),(target.pose.position.x-local[0]));
     return angel;
 }
+
+

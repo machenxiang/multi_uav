@@ -13,6 +13,9 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
 # Eigen3
+  message_generation
+  geometry_msgs
+
 )
 #include_directories(${EIGEN3_INCLUDE_DIR})
 #add_definitions(${EIGEN_DEFINITIONS})
@@ -55,11 +58,10 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+  FILES
+  uav_state.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -76,10 +78,12 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   mavros_msgs#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  #mavros_msgs
+  std_msgs
+  geometry_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -113,8 +117,10 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES multi_uav
-#  CATKIN_DEPENDS mavros_msgs roscpp rospy std_msgs
+#CATKIN_DEPENDS mavros_msgs roscpp rospy 
+
 #  DEPENDS system_lib
+CATKIN_DEPENDS message_runtime std_msgs
 )
 
 ###########
@@ -146,8 +152,29 @@ include_directories(
 ############################################################
 add_executable(takeoff_node src/takeoff.cpp)
 add_executable(figure8 src/figure8_circle.cpp)
-add_executable(leader_node src/leader.cpp)
+add_executable(run_square_node src/leader_run_square.cpp)
 add_executable(follower_node src/follower.cpp)
+add_executable(run_line_node src/leader_run_line.cpp)
+
+target_link_libraries(takeoff_node
+   ${catkin_LIBRARIES}
+ )
+target_link_libraries(figure8
+   ${catkin_LIBRARIES}
+ )
+target_link_libraries(run_square_node
+   ${catkin_LIBRARIES}
+ )
+target_link_libraries(follower_node
+   ${catkin_LIBRARIES}
+)
+target_link_libraries(run_line_node
+   ${catkin_LIBRARIES}
+)
+
+#add_dependencies(run_line_node ${PROJECT_NAME}_msgs_gencpp)
+
+
 ############################################################
 #############complie cpp file to executable file############
 ############################################################
@@ -163,18 +190,6 @@ add_executable(follower_node src/follower.cpp)
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(takeoff_node
-   ${catkin_LIBRARIES}
- )
- target_link_libraries(figure8
-   ${catkin_LIBRARIES}
- )
-  target_link_libraries(leader_node
-   ${catkin_LIBRARIES}
- )
- target_link_libraries(follower_node
- ${catkin_LIBRARIES}
-)
 
 #############
 ## Install ##
