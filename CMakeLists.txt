@@ -153,7 +153,7 @@ include_directories(
 add_executable(takeoff_node src/takeoff.cpp)
 add_executable(figure8 src/figure8_circle.cpp)
 add_executable(run_square_node src/leader_run_square.cpp)
-add_executable(follower_node src/follower.cpp)
+add_executable(follower_node src/follower.cpp src/sector.cpp)
 add_executable(run_line_node src/leader_run_line.cpp)
 
 target_link_libraries(takeoff_node

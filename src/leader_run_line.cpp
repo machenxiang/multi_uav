@@ -39,7 +39,7 @@ int main(int argc,char **argv){
     target_pos.pose.position.y=0;
     target_pos.pose.position.z=2.5;
 
-    ros::init(argc, argv, "offb_node");
+    ros::init(argc, argv, "leader_node");
 	ros::NodeHandle nh;
     //建议控制频率10~20Hz,控制频率取决于控制形式，若控制方式为速度或者加速度应适当提高频率
     ros::Rate rate(30);
