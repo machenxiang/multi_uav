@@ -1,0 +1,46 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/haha/catkin_ws/devel/include/**",
+                "/home/haha/Prometheus/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/bspline/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/bspline_opt/include/**",
+                "/home/haha/Prometheus/Modules/planning/kinodynamic_astar/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/Utils/multi_map_server/include/**",
+                "/home/haha/catkin_ws/src/multi_uav/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/path_searching/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/plan_env/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/plan_manage/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/poly_traj/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/Utils/pose_utils/include/**",
+                "/home/haha/Prometheus/Modules/control/include/**",
+                "/home/haha/Prometheus/Simulator/gazebo_simulator/include/**",
+                "/home/haha/Prometheus/Modules/planning/global_planner/include/**",
+                "/home/haha/Prometheus/Modules/planning/local_planner/include/**",
+                "/home/haha/Prometheus/Modules/mission/include/**",
+                "/home/haha/Prometheus/Modules/planning/FastPlanner/plan_manage/include/**",
+                "/home/haha/Prometheus/Modules/planning/Utils/pose_utils/include/**",
+                "/home/haha/Prometheus/Modules/slam/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/Utils/quadrotor_msgs/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/so3_control/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/so3_disturbance_generator/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/so3_quadrotor_simulator/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/fast_planner/traj_utils/include/**",
+                "/home/haha/catkin_ws/src/Fast-Planner/uav_simulator/Utils/uav_utils/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/opt/gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}
