@@ -27,7 +27,12 @@
 Eigen::Vector3d follower_currrent_pos;
 multi_uav::uav_state leader_state;
 multi_uav::uav_state follower_state;
+
 SectorMap* sector;
+Eigen::Vector3d target={10,0,0};
+mavros_msgs::PositionTarget follower_vel;
+float target_rad;
+float final_rad;
 
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>函 数 声 明<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -57,7 +62,25 @@ int main(int argc,char **argv){
     while (ros::ok())
     {
         ros::spinOnce();
-    }
+        target_rad=sector->calculate_target_direction1(target,follower_currrent_pos);
+        std::cout<<"target_rad "<<target_rad<<std::endl;
+        // if(sector->is_front_safe()){
+        //     final_rad=0;
+        // }
+        // else{
+        //      final_rad=sector->change_direction(target_rad);
+        // }
+
+        
+        // std::cout<<"final_rad"<<final_rad<<std::endl;
+
+        follower_vel.coordinate_frame=1;
+		follower_vel.type_mask = 1 + 2 + 4 + /*8 + 16+ 32 */ + 64 + 128 + 256 + 512 + /*1024*/ + 2048;
+		follower_vel.velocity.x=1;
+		follower_vel.velocity.y=0;
+        follower_vel.yaw=atan2(follower_vel.velocity.y,follower_vel.velocity.x);
+        follower_vel_pub.publish(follower_vel);
+     }
     
     delete sector;
     return 0;
@@ -73,6 +96,7 @@ void leader_state_cb(const multi_uav::uav_state::ConstPtr& msg){
     //std::cout<<leader_state.state<<std::endl;
 }
 void follower_laser_cb(const sensor_msgs::LaserScan::ConstPtr& msg){
+
     sector->down_sample(msg->ranges);
-    //std::cout<<laser.ranges.size()<<std::endl;
+
 }

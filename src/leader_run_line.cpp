@@ -65,9 +65,10 @@ int main(int argc,char **argv){
         }
 
         leader_vel.coordinate_frame=1;
-		leader_vel.type_mask = 1 + 2 + 4 + /*8 + 16+ 32 */ + 64 + 128 + 256 + 512 + 1024 + 2048;
-		leader_vel.velocity.x=0.5;
-		leader_vel.velocity.y=0;
+		leader_vel.type_mask = 1 + 2 + 4 + /*8 + 16+ 32 */ + 64 + 128 + 256 + 512 + /*1024*/ + 2048;
+		leader_vel.velocity.x=cos(0.7854);
+		leader_vel.velocity.y=sin(0.7854);
+        leader_vel.yaw=atan2(leader_vel.velocity.y,leader_vel.velocity.x);
         leader_vel_pub.publish(leader_vel);
         leader_state_pub.publish(leader_state);
 
